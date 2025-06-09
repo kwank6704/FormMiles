@@ -3,45 +3,47 @@
 <head>
   <meta charset="UTF-8">
   <title>ฟอร์มบันทึกระยะทาง</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;600&display=swap" rel="stylesheet">
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Prompt", sans-serif;
-      background: #f5f6f7;
+      font-family: 'Prompt', sans-serif;
       margin: 0;
-      padding: 40px 20px;
-      color: #1c1c1e;
-    }
-
-    form {
-      max-width: 600px;
-      margin: auto;
       background-color: #ffffff;
-      padding: 40px;
-      border-radius: 16px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+      color: #222;
     }
 
-    h2 {
+    .header {
+      background: linear-gradient(to right, #64b5f6, #42a5f5);
+      color: white;
+      padding: 60px 20px 100px;
       text-align: center;
-      color: #007aff;
-      font-size: 24px;
+      border-bottom-left-radius: 60% 20px;
+      border-bottom-right-radius: 60% 20px;
+    }
+
+    .header h1 {
+      font-size: 26px;
       margin-bottom: 8px;
     }
 
-    p.subtitle {
-      text-align: center;
-      font-size: 14px;
-      color: #666;
-      margin-bottom: 30px;
+    .container {
+      max-width: 600px;
+      margin: -60px auto 0;
+      padding: 30px 20px;
+      background-color: white;
     }
 
     label {
-      display: block;
-      margin-top: 20px;
-      font-weight: 500;
       font-size: 14px;
-      color: #333;
+      margin-bottom: 4px;
+      display: block;
+      font-weight: 500;
     }
 
     input[type="text"],
@@ -50,20 +52,19 @@
     input[type="file"],
     textarea {
       width: 100%;
-      padding: 10px 14px;
-      margin-top: 6px;
-      background-color: #f9f9f9;
-      border: 1px solid #ddd;
-      border-radius: 12px;
-      font-size: 15px;
-      transition: border 0.2s;
+      padding: 10px 4px;
+      margin-bottom: 24px;
+      border: none;
+      border-bottom: 1px solid #ccc;
+      font-size: 16px;
+      background-color: transparent;
+      outline: none;
+      transition: all 0.2s;
     }
 
     input:focus,
     textarea:focus {
-      border-color: #007aff;
-      outline: none;
-      background-color: #fff;
+      border-color: #42a5f5;
     }
 
     textarea {
@@ -79,60 +80,118 @@
     }
 
     button {
-      margin-top: 30px;
-      padding: 14px;
-      background-color: #007aff;
+      background-color: #42a5f5;
       color: white;
       border: none;
-      border-radius: 12px;
-      cursor: pointer;
       width: 100%;
+      padding: 14px;
       font-size: 16px;
+      border-radius: 8px;
       font-weight: 600;
-      transition: background 0.2s;
+      cursor: pointer;
+      transition: background 0.3s;
     }
 
     button:hover {
-      background-color: #005ecb;
+      background-color: #1e88e5;
+    }
+
+    @media (max-width: 480px) {
+      .header h1 {
+        font-size: 22px;
+      }
+    }
+
+    .swal2-popup {
+      border-radius: 16px !important;
+      font-family: 'Prompt', sans-serif;
+      padding: 2em 2em !important;
+    }
+
+    .swal2-title {
+      font-size: 20px !important;
+      font-weight: 600;
+      color: #222;
+    }
+
+    .swal2-html-container {
+      font-size: 15px !important;
+      color: #555;
+      line-height: 1.6;
+    }
+
+    .swal2-styled.swal2-confirm,
+    .swal2-styled.swal2-cancel {
+      border-radius: 10px !important;
+      padding: 10px 22px !important;
+      font-size: 14px !important;
+      font-weight: 500 !important;
+    }
+
+    .swal2-styled.swal2-confirm {
+      background-color: #42a5f5 !important;
+    }
+
+    .swal2-styled.swal2-confirm:hover {
+      background-color: #1e88e5 !important;
+    }
+
+    .swal2-styled.swal2-cancel {
+      background-color: #f0f0f0 !important;
+      color: #333 !important;
+    }
+
+    .swal2-icon {
+      border: none !important;
+    }
+
+    .swal2-icon-success {
+      color: #42a5f5 !important;
+    }
+
+    .swal2-icon-error {
+      color: #e53935 !important;
     }
   </style>
 </head>
 <body>
 
-  <form id="milesForm">
-    <h2>Miles</h2>
-    <p class="subtitle">P Deer</p>
+  <div class="header">
+    <h1>Miles Form</h1>
+    <p>กรอกข้อมูลการเดินทางของคุณ</p>
+  </div>
 
-    <label for="email">Email *</label>
+  <form id="milesForm" class="container">
+    <label>Email *</label>
     <input type="email" name="email" required>
 
-    <label for="id">ID *</label>
+    <label>ID *</label>
     <input type="text" name="id" required>
 
-    <label for="name">Name *</label>
+    <label>Name *</label>
     <input type="text" name="name" required>
 
-    <label for="surname">Surname *</label>
+    <label>Surname *</label>
     <input type="text" name="surname" required>
 
-    <label for="date">Date *</label>
+    <label>Date *</label>
     <input type="date" name="date" required>
 
-    <label for="photo1">Photo 1 (เริ่มต้น) *</label>
+    <label>Photo 1 (เริ่มต้น) *</label>
     <input type="file" name="photo1" id="photo1" accept="image/*" required>
     <img id="preview1" class="preview" />
 
-    <label for="photo2">Photo 2 (สิ้นสุด) *</label>
+    <label>Photo 2 (สิ้นสุด) *</label>
     <input type="file" name="photo2" id="photo2" accept="image/*" required>
     <img id="preview2" class="preview" />
 
-    <label for="start">จุดเริ่มต้น *</label>
+    <label>จุดเริ่มต้น *</label>
     <input type="text" name="start" required>
 
-    <label for="end">จุดสิ้นสุด *</label>
+    <label>จุดสิ้นสุด *</label>
     <input type="text" name="end" required>
 
-    <label for="note">หมายเหตุ (ไม่บังคับ)</label>
+    <label>หมายเหตุ (ถ้ามี)</label>
     <textarea name="note" placeholder="พิมพ์ข้อความเพิ่มเติม..."></textarea>
 
     <button type="submit">ส่งข้อมูล</button>
@@ -185,18 +244,13 @@
       `;
 
       const result = await Swal.fire({
-        title: "คุณต้องการส่งข้อมูลหรือไม่?",
+        title: "ยืนยันการส่งข้อมูล?",
         html: confirmHtml,
         icon: "question",
         showCancelButton: true,
         confirmButtonText: "ส่งเลย ✅",
-        cancelButtonText: "แก้ไข ❌",
-        confirmButtonColor: '#007aff',
-        cancelButtonColor: '#d33'
+        cancelButtonText: "กลับไปแก้ ❌"
       });
-
-      // by KWAN
-      // do not use without permission
 
       if (result.isConfirmed) {
         try {
@@ -209,8 +263,7 @@
             Swal.fire({
               icon: 'success',
               title: 'ส่งข้อมูลเรียบร้อย ✅',
-              text: 'ขอบคุณสำหรับการส่งข้อมูล',
-              confirmButtonColor: '#007aff'
+              text: 'ขอบคุณสำหรับการส่งข้อมูล'
             });
             form.reset();
             document.getElementById("preview1").style.display = "none";
@@ -219,16 +272,14 @@
             Swal.fire({
               icon: 'error',
               title: 'เกิดข้อผิดพลาด',
-              text: 'ไม่สามารถส่งข้อมูลได้ กรุณาลองใหม่',
-              confirmButtonColor: '#d33'
+              text: 'ไม่สามารถส่งข้อมูลได้ กรุณาลองใหม่'
             });
           }
         } catch (err) {
           Swal.fire({
             icon: 'error',
             title: 'เกิดข้อผิดพลาด',
-            text: err.message,
-            confirmButtonColor: '#d33'
+            text: err.message
           });
         }
       }
