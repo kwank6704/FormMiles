@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>ฟอร์มบันทึกระยะทาง</title>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Prompt", sans-serif;
+      background: #f5f6f7;
+      margin: 0;
+      padding: 40px 20px;
+      color: #1c1c1e;
+    }
+
+    form {
+      max-width: 600px;
+      margin: auto;
+      background-color: #ffffff;
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    }
+
+    h2 {
+      text-align: center;
+      color: #007aff;
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+
+    p.subtitle {
+      text-align: center;
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 30px;
+    }
+
+    label {
+      display: block;
+      margin-top: 20px;
+      font-weight: 500;
+      font-size: 14px;
+      color: #333;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="date"],
+    input[type="file"],
+    textarea {
+      width: 100%;
+      padding: 10px 14px;
+      margin-top: 6px;
+      background-color: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      font-size: 15px;
+      transition: border 0.2s;
+    }
+
+    input:focus,
+    textarea:focus {
+      border-color: #007aff;
+      outline: none;
+      background-color: #fff;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    img.preview {
+      max-width: 100%;
+      margin-top: 10px;
+      display: none;
+      border-radius: 12px;
+    }
+
+    button {
+      margin-top: 30px;
+      padding: 14px;
+      background-color: #007aff;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      width: 100%;
+      font-size: 16px;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+
+    button:hover {
+      background-color: #005ecb;
+    }
+  </style>
+</head>
+<body>
+
+  <form id="milesForm">
+    <h2>Miles</h2>
+    <p class="subtitle">P Deer</p>
+
+    <label for="email">Email *</label>
+    <input type="email" name="email" required>
+
+    <label for="id">ID *</label>
+    <input type="text" name="id" required>
+
+    <label for="name">Name *</label>
+    <input type="text" name="name" required>
+
+    <label for="surname">Surname *</label>
+    <input type="text" name="surname" required>
+
+    <label for="date">Date *</label>
+    <input type="date" name="date" required>
+
+    <label for="photo1">Photo 1 (เริ่มต้น) *</label>
+    <input type="file" name="photo1" id="photo1" accept="image/*" required>
+    <img id="preview1" class="preview" />
+
+    <label for="photo2">Photo 2 (สิ้นสุด) *</label>
+    <input type="file" name="photo2" id="photo2" accept="image/*" required>
+    <img id="preview2" class="preview" />
+
+    <label for="start">จุดเริ่มต้น *</label>
+    <input type="text" name="start" required>
+
+    <label for="end">จุดสิ้นสุด *</label>
+    <input type="text" name="end" required>
+
+    <label for="note">หมายเหตุ (ไม่บังคับ)</label>
+    <textarea name="note" placeholder="พิมพ์ข้อความเพิ่มเติม..."></textarea>
+
+    <button type="submit">ส่งข้อมูล</button>
+  </form>
+
+  <script>
+    function previewImage(inputId, previewId) {
+      const input = document.getElementById(inputId);
+      const preview = document.getElementById(previewId);
+      input.addEventListener('change', function () {
+        const file = this.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            preview.src = e.target.result;
+            preview.style.display = 'block';
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+    }
+
+    previewImage("photo1", "preview1");
+    previewImage("photo2", "preview2");
+
+    document.getElementById('milesForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      const form = this;
+      const formData = new FormData(form);
+
+      const email = formData.get("email");
+      const id = formData.get("id");
+      const name = formData.get("name");
+      const surname = formData.get("surname");
+      const date = formData.get("date");
+      const start = formData.get("start");
+      const end = formData.get("end");
+      const note = formData.get("note");
+
+      const confirmHtml = `
+        <strong>Email:</strong> ${email}<br>
+        <strong>ID:</strong> ${id}<br>
+        <strong>ชื่อ:</strong> ${name} ${surname}<br>
+        <strong>วันที่:</strong> ${date}<br>
+        <strong>จาก:</strong> ${start}<br>
+        <strong>ถึง:</strong> ${end}<br>
+        ${note ? `<strong>หมายเหตุ:</strong> ${note}<br>` : ''}
+        <strong>📷 แนบรูปภาพแล้ว</strong>
+      `;
+
+      const result = await Swal.fire({
+        title: "คุณต้องการส่งข้อมูลหรือไม่?",
+        html: confirmHtml,
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonText: "ส่งเลย ✅",
+        cancelButtonText: "แก้ไข ❌",
+        confirmButtonColor: '#007aff',
+        cancelButtonColor: '#d33'
+      });
+
+      // by KWAN
+      // do not use without permission
+
+      if (result.isConfirmed) {
+        try {
+          const response = await fetch("https://internatteam.app.n8n.cloud/webhook/40f1f38d-9d00-4b9c-8f04-3b7d35f5b419", {
+            method: "POST",
+            body: formData
+          });
+
+          if (response.ok) {
+            Swal.fire({
+              icon: 'success',
+              title: 'ส่งข้อมูลเรียบร้อย ✅',
+              text: 'ขอบคุณสำหรับการส่งข้อมูล',
+              confirmButtonColor: '#007aff'
+            });
+            form.reset();
+            document.getElementById("preview1").style.display = "none";
+            document.getElementById("preview2").style.display = "none";
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'เกิดข้อผิดพลาด',
+              text: 'ไม่สามารถส่งข้อมูลได้ กรุณาลองใหม่',
+              confirmButtonColor: '#d33'
+            });
+          }
+        } catch (err) {
+          Swal.fire({
+            icon: 'error',
+            title: 'เกิดข้อผิดพลาด',
+            text: err.message,
+            confirmButtonColor: '#d33'
+          });
+        }
+      }
+    });
+  </script>
+</body>
+</html>
